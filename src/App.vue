@@ -2,7 +2,7 @@
   <div>
     <!-- 头部 -->
     <div class="header">
-        <!-- 1.0 导航栏头部 -->
+        <!-- 导航栏头部 -->
         <div class="head-top">
             <div class="section">
                 <div class="left-box">
@@ -32,7 +32,7 @@
             </div>
         </div>
 
-        <!-- 2.0 导航条 -->
+        <!--  导航条 -->
         <div class="head-nav">
             <div class="section">
                 <div id="menu2" class="nav-box menuhd">
@@ -80,7 +80,7 @@
             </div>
         </div>
 
-        <!-- 中间 -->
+        <!-- 中间-路由 -->
         <router-view></router-view>
         
         <!-- 底部 -->
@@ -123,45 +123,45 @@
 
 <script>
 // 导入jquery
-import $ from "jquery"
+import $ from 'jquery'
 // 把导入的jquery挂在到window
-window.$      = $
+window.$ = $
 window.jQuery = $
 
 export default {
+  // App template的内容渲染到浏览器之后调用
   mounted() {
-    $("#menu2 li a").wrapInner('<span class="out"></span>');
-    $("#menu2 li a").each(function() {
-      $('<span class="over">' + $(this).text() + "</span>").appendTo(this);
-    });
+    $('#menu2 li a').wrapInner('<span class="out"></span>')
+    $('#menu2 li a').each(function() {
+      $('<span class="over">' + $(this).text() + '</span>').appendTo(this)
+    })
 
-    $("#menu2 li a").hover(
+    $('#menu2 li a').hover(
       function() {
-        $(".out", this) 
+        $('.out', this)
           .stop()
-          .animate({ top: "48px" }, 300); // move down - hide
-        $(".over", this)
+          .animate({ top: '48px' }, 300) // move down - hide
+        $('.over', this)
           .stop()
-          .animate({ top: "0px" }, 300); // move down - show
+          .animate({ top: '0px' }, 300) // move down - show
       },
       function() {
-        $(".out", this)
+        $('.out', this)
           .stop()
-          .animate({ top: "0px" }, 300); // move up - show
-        $(".over", this)
+          .animate({ top: '0px' }, 300) // move up - show
+        $('.over', this)
           .stop()
-          .animate({ top: "-48px" }, 300); // move up - hide
+          .animate({ top: '-48px' }, 300) // move up - hide
       }
-    );
+    )
   }
-};
+}
 </script>
 
 // 不能加scoped
 <style>
-
 /** 导入jquery插件的样式 **/
-@import "./statics/site/jquery_plugins/hoverNav/css/style.css";
-/** 导入自己的样式 */
-@import "./statics/site/css/style.css";
+@import './statics/site/jquery_plugins/hoverNav/css/style.css';
+/** 导入自己的样式(自己的样式一般放最后) */
+@import './statics/site/css/style.css';
 </style>

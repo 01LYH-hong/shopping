@@ -8,7 +8,7 @@
                 <a href="#/site/goodslist" class="router-link-exact-active router-link-active">购物商城</a>
             </div>
         </div>
-        <!-- 2.0 topData的内容 -->
+        <!-- topData的内容 -->
         <div class="section">
             <div class="wrapper">
                 <div class="wrap-box">
@@ -54,7 +54,7 @@
 
                         </div>
                     </div>
-                    <!--/右侧-->
+                    <!--右侧详情-->
                     <div  class="left-220">
                         <ul class="side-img-list">
                             <li v-for="(item,index) in topData.toplist" :key="item.id">
@@ -73,7 +73,7 @@
                 </div>
             </div>
         </div>
-         <!-- 3.0 商品列表 -->
+         <!-- 商品列表 -->
          <div v-for="item in goodList" :key="item.level1cateid" class="section">
             <div class="main-tit">
                 <h2>{{item.catetitle}}</h2>
@@ -127,17 +127,17 @@ export default {
     this.getGoodsGroupData()
   },
   methods: {
+       // 获取头部的数据(分类、轮播、排行榜)
     getTopData() {
       const url = `http://47.106.148.205:8899/site/goods/gettopdata/goods`
       axios.get(url).then(res => {
-        // console.log(res.data.message)
         this.topData = res.data.message
       })
     },
+     // 获取商品列表的数据
     getGoodsGroupData() {
       const url = `http://47.106.148.205:8899/site/goods/getgoodsgroup`
       axios.get(url).then(res => {
-        // console.log(res.data.message)
         this.goodList = res.data.message
       })
     }
@@ -146,6 +146,7 @@ export default {
 </script>
 
 <style scoped>
+/* 轮播图图片 */
 .el-carousel__container img {
   width : 100%;
   height: 100%;
