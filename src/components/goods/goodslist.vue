@@ -88,7 +88,7 @@
                 <div class="wrap-box">
                     <ul class="img-list">
                         <li v-for="subitem in item.datas" :key="subitem.artID">
-                            <a href="#/site/goodsinfo/87" class="">
+                            <router-link :to="'/goodsinfo/'+subitem.artID" class="">
                                 <div class="img-box">
                                     <img v-lazy="subitem.img_url">
                                 </div>
@@ -103,7 +103,7 @@
                                         </span>
                                     </p>
                                 </div>
-                            </a>
+                            </router-link>
                         </li>
                     </ul>
                 </div>

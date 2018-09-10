@@ -24,8 +24,8 @@
                         <strong>|</strong>
                     </span>
                     <a href="" class="">
-                        <i class="iconfont icon-cart"></i>购物车(
-                        <span id="shoppingCartCount">
+                        <i id="shoppingCartCount" class="iconfont icon-cart"></i>购物车(
+                        <span >
                             <span>4</span>
                         </span>)</a>
                 </div>
@@ -125,7 +125,7 @@
 // 导入jquery
 import $ from 'jquery'
 // 把导入的jquery挂在到window
-window.$ = $
+window.$      = $
 window.jQuery = $
 
 export default {
