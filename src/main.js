@@ -20,10 +20,12 @@ import axios from 'axios'
 axios.defaults.baseURL = 'http://47.106.148.205:8899/'
 Vue.prototype.$axios = axios
 
-
+// 导入仓库store
+import store from './store/index.js'
 
 // 注册Vue根实例
 new Vue({
-    router,
+    router, //$route $router
+    store, //$store
     render: h => h(App)
 }).$mount('#app')

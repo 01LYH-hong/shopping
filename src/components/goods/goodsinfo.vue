@@ -247,7 +247,6 @@ export default {
   },
   updated() {
     // data发生了变化并且，视图已经渲染完毕了
-    console.log(this)
     $('#magnifier1').imgzoon({ magnifier: '#magnifier1' })
   },
   watch: {
@@ -341,7 +340,15 @@ export default {
     //加入购物车
     addToShopCart() {
       this.isShow = true
+
+    //调用store.commit去触发mutations方法
+    const goods={
+        goodsId: this.$route.params.goodsID,
+        count  : this.goodsCount
+    }
+    this.$store.commit('addGoods', goods)
     },
+    
     // 动画相关
     beforeEnter: function(el) {
       el.style.left      = `${this.addToShopCartOffset.left}px`
