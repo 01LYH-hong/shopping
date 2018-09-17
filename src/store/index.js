@@ -1,7 +1,12 @@
 // 生成Vuex
 import Vue from 'vue'
 import VueX from 'vuex'
-import { addLocalGoods, getTotalCount } from '../common/localStorageTool.js';
+import {
+    addLocalGoods,
+    getTotalCount,
+    updateLocalGoods,
+    deleteLocalGoodsById
+} from '../common/localStorageTool.js';
 
 // 集成vuex
 Vue.use(VueX)
@@ -21,6 +26,14 @@ const store = new VueX.Store({
         // goods === {goodsId:87,count:3}
         addGoods(state, goods) {
             state.buyCount = addLocalGoods(goods)
+        },
+        // 参数 goods === {goodsId:87,count:3}
+        updateGoods(state, goods) {
+            state.buyCount = updateLocalGoods(goods)
+        },
+        //参数 goodsId:87
+        deleteGoodsById(state, goodsId) {
+            state.buyCount = deleteLocalGoodsById(goodsId)
         }
     }
 })

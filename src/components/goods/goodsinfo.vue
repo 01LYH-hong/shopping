@@ -232,14 +232,15 @@ export default {
   data() {
     return {
       goodsData              : {},
-      goodsCount             : 1,      //商品数量
-      isShowIntroduction     : true,   //是否显示商品介绍
-      pageIndex              : 1,      // 页码 默认从第一页开始查
-      pageSize               : 2,      // 页容量，每页默认2条
-      commentInfo            : {},     // 评论信息
-      addToShopCartOffset    : null,   //加入购物车按钮的偏移量【开始】
-      shoppingCartCountOffset: null,   //购买数量的偏移量【结束】
-      isShow                 : false
+      goodsCount             : 1,       //商品数量
+      isShowIntroduction     : true,    //是否显示商品介绍
+      pageIndex              : 1,       // 页码 默认从第一页开始查
+      pageSize               : 2,       // 页容量，每页默认2条
+      commentInfo            : {},      // 评论信息
+      addToShopCartOffset    : null,    //加入购物车按钮的偏移量【开始】
+      shoppingCartCountOffset: null,    //购买数量的偏移量【结束】
+      isShow                 : false,
+      isNeedChange           : true     //标签法,解决放大镜插件刷新问题
     }
   },
   created() {
@@ -247,17 +248,24 @@ export default {
   },
   updated() {
     // data发生了变化并且，视图已经渲染完毕了
-    $('#magnifier1').imgzoon({ magnifier: '#magnifier1' })
+    if (this.isNeedChange) {
+      $('#magnifier1').imgzoon({ magnifier: '#magnifier1' })
+      this.isNeedChange = false
+    }
   },
   watch: {
     $route(newV, oldV) {
+      this.goodsCount = 1
       this.getGoodsInfoData()
       this.getCommentInfoData()
+      //   this.isNeedChange = true
     }
   },
   methods: {
     // 获取商品详情信息
     getGoodsInfoData() {
+      this.isNeedChange = true
+
       const url = `site/goods/getgoodsinfo/${this.$route.params.goodsID}`
 
       this.$axios.get(url).then(res => {
@@ -339,16 +347,17 @@ export default {
 
     //加入购物车
     addToShopCart() {
+      //this.goodsCount = 1
       this.isShow = true
 
-    //调用store.commit去触发mutations方法
-    const goods={
+      //调用store.commit去触发mutations方法
+      const goods = {
         goodsId: this.$route.params.goodsID,
         count  : this.goodsCount
-    }
-    this.$store.commit('addGoods', goods)
+      }
+      this.$store.commit('addGoods', goods)
     },
-    
+
     // 动画相关
     beforeEnter: function(el) {
       el.style.left      = `${this.addToShopCartOffset.left}px`

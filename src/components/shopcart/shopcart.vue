@@ -54,7 +54,7 @@
                                     <th width="104" align="left">金额(元)</th>
                                     <th width="54" align="center">操作</th>
                                 </tr>
-                                <tr v-for="item in goodsList" :key="item.id">
+                                <tr v-for="(item,index) in goodsList" :key="item.id">
                                     <td width="48" align="center">
                                         <el-switch
                                             v-model        = "item.isSelected"
@@ -74,7 +74,7 @@
                                     </td>
                                     <td width="104" align="left">{{item.sell_price * item.buycount}}</td>
                                     <td width="54" align="center">
-                                        <a href="javascript:void(0)">删除</a>
+                                        <a @click="deleteGoods(item.id,index)">删除</a>
                                     </td>
                                 </tr>
                                 <tr v-if="goodsList.length === 0">
@@ -106,8 +106,8 @@
                     <!--购物车底部-->
                     <div class="cart-foot clearfix">
                         <div class="right-box">
-                            <button class="button" onclick="javascript:location.href='/index.html';">继续购物</button>
-                            <button class="submit" onclick="formSubmit(this, '/', '/shopping.html');">立即结算</button>
+                            <button class="button" @click="continueBuy">继续购物</button>
+                            <button class="submit" @click="goToOrder">立即结算</button>
                         </div>
                     </div>
                     <!--购物车底部-->
@@ -189,6 +189,42 @@ export default {
           goods.buycount = updateGoods.count
         }
       })
+
+      // 调用Vuex的方法,调用mutation,传递载荷
+      const goods = {
+        goodsId: updateGoods.goodsId,
+        count  : updateGoods.count
+      }
+      this.$store.commit('updateGoods', goods)
+    },
+    // 删除购物车商品
+    deleteGoods(goodsId,index){
+        //console.log(goodsId,index);
+        // 删除商品
+        this.goodsList.splice(index,1)
+        // 调用mutation的deleteGoodsById
+        this.$store.commit('deleteGoodsById',goodsId)
+    },
+    // 继续购物
+    continueBuy(){
+        this.$router.push({path:'/goodslist'})
+    },
+    // 结算订单
+    goToOrder(){
+        const ids = []
+        this.goodsList.forEach(goods=>{
+            if(goods.isSelected){
+                ids.push(goods.id)
+            }
+        })
+        if(ids.length ===0){
+            this.$message({
+                message: "至少要选择一个商品结算",
+                type   : 'warning'
+            })
+            return
+        }
+        this.$router.push({path:'/order',query:{ids:ids.join(',')}})
     }
   }
 }

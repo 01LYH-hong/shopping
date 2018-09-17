@@ -15,10 +15,6 @@ import ElementUI from 'element-ui'
 Vue.use(ElementUI) // 其实在注册组件
 import 'element-ui/lib/theme-chalk/index.css'
 
-//网络请求
-import axios from 'axios'
-axios.defaults.baseURL = 'http://47.106.148.205:8899/'
-Vue.prototype.$axios = axios
 
 // 导入仓库store
 import store from './store/index.js'

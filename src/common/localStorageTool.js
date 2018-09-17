@@ -28,23 +28,53 @@ const getTotalCount = () => {
  * id作为key，数量作为value，但是如果原先key存在数量要累加
  */
 const addLocalGoods = goods => {
-    //把goods中的商品存储到本地
-    //localGoods === {87:3,88:2}
+        //把goods中的商品存储到本地
+        //localGoods === {87:3,88:2}
+        const localGoods = getLocalGoods()
+
+        // console.log(goods)
+        // console.log(localGoods)
+        // 传递过来的goodsId已经在本地有了
+        if (localGoods[goods.goodsId]) {
+            localGoods[goods.goodsId] += goods.count
+        } else {
+            localGoods[goods.goodsId] = goods.count
+        }
+        localStorage.setItem(KEY, JSON.stringify(localGoods))
+
+        return getLocalGoods()
+    }
+    // 参数 goods === {goodsId:87,count:4}
+const updateLocalGoods = goods => {
+        // 更新本地商品数量
+        //{87:3,88:2}
+        const localGoods = getLocalGoods()
+        localGoods[goods.goodsId] = goods.count
+            // ===>{87:4,88:2}
+
+        localStorage.setItem(KEY, JSON.stringify(localGoods))
+
+        // 放回重新计算的总数
+        return getTotalCount()
+    }
+    // 根据id删除商品
+const deleteLocalGoodsById = goodsId => {
+    // 获取本地商品数量
     const localGoods = getLocalGoods()
 
-    // console.log(goods)
-    // console.log(localGoods)
-    // 传递过来的goodsId已经在本地有了
-    if (localGoods[goods.goodsId]) {
-        localGoods[goods.goodsId] += goods.count
-    } else {
-        localGoods[goods.goodsId] = goods.count
-    }
+    delete localGoods[goodsId]
+
     localStorage.setItem(KEY, JSON.stringify(localGoods))
 
-    return getLocalGoods()
+    // 放回重新计算的总数
+    return getTotalCount()
 }
 
-
 // 按需导出,可以导出多个成员,默认导出只能导出一个
-export { addLocalGoods, getTotalCount, getLocalGoods }
+export {
+    addLocalGoods,
+    getTotalCount,
+    getLocalGoods,
+    updateLocalGoods,
+    deleteLocalGoodsById
+}

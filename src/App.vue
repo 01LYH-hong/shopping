@@ -11,16 +11,16 @@
                     <a target="_blank" href="#"></a>
                 </div>
                 <div id="menu" class="right-box">
-                    <span style="display: none;">
+                    <span v-show="!isLogin" style="display: none;">
                         <a href="" class="">登录</a>
                         <strong>|</strong>
                         <a href="" class="">注册</a>
                         <strong>|</strong>
                     </span>
-                    <span>
+                    <span v-show="isLogin">
                         <a href="" class="">会员中心</a>
                         <strong>|</strong>
-                        <a>退出</a>
+                        <a @click="logout">退出</a>
                         <strong>|</strong>
                     </span>
                     <router-link to="/shopcart" class="">
@@ -55,7 +55,7 @@
                         </li>
                         <li class="video">
                             <a href="#" class="">
-                                <span class="out" style="top: 0px;">黑马超市</span>
+                                <span class="out" style="top: 0px;">超市</span>
                             </a>
                         </li>
                         <li class="down">
@@ -129,7 +129,41 @@ import $ from 'jquery'
 window.$      = $
 window.jQuery = $
 
+import {bus} from './common/common.js'
+
 export default {
+  data() {
+    return {
+      isLogin: false
+    }
+  },
+  created(){
+    //   非父子组件传值
+      bus.$on('loginSuccess',()=>{
+          this.isLogin = true
+      })
+  },
+  methods: {
+    logout() {
+      this.$confirm('确定退出吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText : '取消',
+        type             : 'warning'
+      })
+        .then(() => {
+          this.$axios.get('site/account/logout').then(response => {
+            if (response.data.status === 0) {
+              // 通过编程式导航，跳转到首页
+              this.$router.push({ path: '/goodslist' })
+
+              // 更改isLogin为false
+              this.isLogin = false
+            }
+          })
+        })
+        .catch(() => {})
+    }
+  },
   // App template的内容渲染到浏览器之后调用
   mounted() {
     $('#menu2 li a').wrapInner('<span class="out"></span>')
