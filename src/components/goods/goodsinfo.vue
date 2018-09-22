@@ -1,8 +1,7 @@
 <template>
 
-    
     <div>
-         <!-- <p>{{$route.params.goodsID}}</p> -->
+        <!-- <p>{{$route.params.goodsID}}</p> -->
         <div class="section">
             <div class="location">
                 <span>当前位置：</span>
@@ -18,7 +17,7 @@
                         <div class="goods-box clearfix">
                             <!-- 图片区 -->
                             <div class="pic-box">
-                                
+
                                 <div class="magnifier" id="magnifier1">
                                     <div class="magnifier-container">
                                         <div class="images-cover"></div>
@@ -41,7 +40,7 @@
                                                         <img :src="item.original_path">
                                                     </div>
                                                 </li>
-                                               
+
                                             </ul>
                                         </div>
                                         <!--缩略图-->
@@ -49,7 +48,7 @@
                                     <div class="magnifier-view"></div>
                                     <!--经过放大的图片显示容器-->
                                 </div>
-                                
+
                             </div>
 
                             <div class="goods-spec">
@@ -82,9 +81,9 @@
                                                 <el-input-number size="small" v-model="goodsCount" :min="1" :max="goodsData.goodsinfo.stock_quantity"></el-input-number>
                                             </div>
                                             <span class="stock-txt">
-                                            库存
-                                            <em id="commodityStockNum">{{goodsData.goodsinfo.stock_quantity}}</em>件
-                                        </span>
+                                                库存
+                                                <em id="commodityStockNum">{{goodsData.goodsinfo.stock_quantity}}</em>件
+                                            </span>
                                         </dd>
                                     </dl>
                                     <dl>
@@ -100,7 +99,7 @@
                         </div>
 
                         <!-- 商品评论,介绍 -->
-                        
+
                         <div id="goodsTabs" class="goods-tab bg-wrap">
 
                             <Affix>
@@ -114,15 +113,15 @@
                                         </li>
                                     </ul>
                                 </div>
-                            </Affix> 
-                            
+                            </Affix>
+
                             <!-- 商品介绍 -->
-                            <div  v-show="isShowIntroduction" class="tab-content entry" style="display: block;">
-                                  <p style="padding:5px;" v-html="goodsData.goodsinfo.content"></p>
+                            <div v-show="isShowIntroduction" class="tab-content entry" style="display: block;">
+                                <p style="padding:5px;" v-html="goodsData.goodsinfo.content"></p>
                             </div>
 
                             <!-- 商品评论 -->
-                            <div  v-show="!isShowIntroduction" class="tab-content" style="display: block;">
+                            <div v-show="!isShowIntroduction" class="tab-content" style="display: block;">
                                 <div class="comment-box">
                                     <div id="commentForm" name="commentForm" class="form-box">
                                         <div class="avatar-box">
@@ -135,7 +134,7 @@
                                                 <span class="Validform_checktip"></span>
                                             </div>
                                             <div class="subcon">
-                                                <input id="btnSubmit" name="submit" type="submit" value="提交评论"  @click="postComment"  class="submit">
+                                                <input id="btnSubmit" name="submit" type="submit" value="提交评论" @click="postComment" class="submit">
                                                 <span class="Validform_checktip"></span>
                                             </div>
                                         </div>
@@ -154,11 +153,11 @@
                                                 <p>{{item.content}}</p>
                                             </div>
                                         </li>
-                                       
+
                                     </ul>
                                     <!-- 分页条 -->
                                     <div class="page-box" style="margin: 5px 0px 0px 62px;">
-                                        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"                                :current-page="pageIndex" :page-sizes="[2, 5, 10, 20]" :page-size="pageSize" layout="total,                             sizes, prev, pager, next, jumper" :total="commentInfo.totalcount">
+                                        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageIndex" :page-sizes="[2, 5, 10, 20]" :page-size="pageSize" layout="total,                             sizes, prev, pager, next, jumper" :total="commentInfo.totalcount">
                                         </el-pagination>
                                     </div>
                                 </div>
@@ -181,7 +180,7 @@
                                             <span>{{item.add_time | dateFmt}}</span>
                                         </div>
                                     </li>
-                                    
+
                                 </ul>
                             </div>
                         </div>
@@ -189,17 +188,14 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- 动画元素 -->
-        <transition 
-        v-on:before-enter = "beforeEnter"
-        v-on:enter        = "enter"
-        v-on:after-enter  = "afterEnter">
+        <transition v-on:before-enter="beforeEnter" v-on:enter="enter" v-on:after-enter="afterEnter">
             <div v-if="goodsData.imglist" v-show="isShow" ref="animateDivRef" class="animateDiv">
                 <img :src="goodsData.imglist[0].original_path" alt="">
             </div>
         </transition>
-     
+
     </div>
 
 </template>
@@ -244,7 +240,8 @@ export default {
     }
   },
   created() {
-    this.getGoodsInfoData(), this.getCommentInfoData()
+    this.getGoodsInfoData()
+    this.getCommentInfoData()
   },
   updated() {
     // data发生了变化并且，视图已经渲染完毕了
@@ -254,7 +251,7 @@ export default {
     }
   },
   watch: {
-    $route(newV, oldV) {
+    $route() {
       this.goodsCount = 1
       this.getGoodsInfoData()
       this.getCommentInfoData()
@@ -264,11 +261,12 @@ export default {
   methods: {
     // 获取商品详情信息
     getGoodsInfoData() {
-      this.isNeedChange = true
-
       const url = `site/goods/getgoodsinfo/${this.$route.params.goodsID}`
 
       this.$axios.get(url).then(res => {
+          
+        this.isNeedChange = true
+
         this.goodsData = res.data.message
 
         // 获取被动画元素动画开始和结束时候的偏移量
@@ -327,7 +325,7 @@ export default {
           }
         )
         .then(res => {
-          console.log(res)
+          //console.log(res)
           if (res.data.status === 0) {
             // 清空原先填写内容
             textContent.value = ''
@@ -379,7 +377,7 @@ export default {
       // ...
       done()
     },
-    afterEnter: function(el) {
+    afterEnter: function() {
       this.isShow = false
     }
   }

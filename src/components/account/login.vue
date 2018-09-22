@@ -51,7 +51,7 @@ export default {
       this.$axios
         .post(url, { user_name: this.user_name, password: this.password })
         .then(res => {
-          console.log(res.data)
+          //console.log(res.data)
           if (res.data.status === 0) {
             //跳转到储存的地址
             this.$router.push({ path: localStorage.getItem('lastVisitPath') })

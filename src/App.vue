@@ -12,13 +12,13 @@
                 </div>
                 <div id="menu" class="right-box">
                     <span v-show="!isLogin" style="display: none;">
-                        <a href="" class="">登录</a>
+                        <router-link to="/login" class="">登录</router-link>
                         <strong>|</strong>
                         <a href="" class="">注册</a>
                         <strong>|</strong>
                     </span>
                     <span v-show="isLogin">
-                        <a href="" class="">会员中心</a>
+                        <router-link to="/vipcenter" class="">会员中心</router-link>
                         <strong>|</strong>
                         <a @click="logout">退出</a>
                         <strong>|</strong>

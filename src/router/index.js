@@ -22,6 +22,9 @@ import order from '../components/order/order.vue'
 import login from '../components/account/login.vue'
 import pay from '../components/pay/pay.vue'
 import paySuccess from '../components/pay/paySuccess.vue'
+import vipcenter from '../components/vipcenter/vipcenter.vue'
+import myOrders from '../components/vipcenter/myOrders.vue'
+import orderInfo from '../components/vipcenter/orderInfo.vue'
 
 // 创建路由对象,设置路由规则,自动注册组件
 const router = new VueRouter({
@@ -61,6 +64,21 @@ const router = new VueRouter({
             path: '/paySuccess',
             meta: { needLogin: true },
             component: paySuccess
+        },
+        {
+            path: '/vipcenter',
+            meta: { needLogin: true },
+            component: vipcenter
+        },
+        {
+            path: '/myOrders',
+            meta: { needLogin: true },
+            component: myOrders
+        },
+        {
+            path: '/orderInfo/:orderid',
+            meta: { needLogin: true },
+            component: orderInfo
         }
     ]
 })
